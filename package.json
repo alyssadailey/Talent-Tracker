@@ -9,5 +9,9 @@
   "keywords": [],
   "author": "",
   "license": "ISC",
-  "description": ""
+  "description": "",
+  "dependencies": {
+    "inquirer": "^12.3.3",
+    "pg": "^8.13.1"
+  }
 }
