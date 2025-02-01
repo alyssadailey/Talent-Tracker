@@ -87,6 +87,7 @@ console.table(roles);
 // add role
 // COME BACK HERE-- use getAllDepartments- need to make sure it fetches all of the saved departments
 async addRole(){
+// gets all of the current departments stored in db
 const departments = await db.getAllDepartments();
 //  asks user for the needed info to add a new role
 const answers = await inquirer.prompt([
@@ -115,13 +116,25 @@ console.log('New role has been added sucessfully!');
 // view all departments
 async viewAllDepartments(){
 
-}
-// add department
-async addDepartment(){
+const departments = db.getAllDepartments();
+console.table(departments);
 
 }
-// quit
-// handled in app.js
+
+// add department
+async addDepartment(){
+const answers = await inquirer.prompt([
+    {
+        type: 'input',
+        name: 'name',
+        message: 'Please enter the name of the new department you would like to add:',
+    },
+]);
+
+await db.addDepartment(answers);
+console.log('Your new department has been added succesfully!')
+}
+// quit is handled in app.js
 }
 // allows ManageEmployee class to be imported into app.js
 module.exports = ManageEmployee;
