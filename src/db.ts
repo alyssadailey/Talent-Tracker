@@ -23,23 +23,38 @@ return results.rows;
 // Get all departments
 async getAllDepartments(): Promise<any[]>{
 const results = await pool.query('SELECT * FROM department');
-return results.row;
+return results.rows;
 }
 // Add a new employee
-async addEmployee(){
-
+async addEmployee(employeeData: { firstName: string; lastName: string; roleId: number; managerId: number }): Promise<void>{
+    const { firstName, lastName, roleId, managerId } = employeeData;
+    await pool.query (
+        'INSERT INTO employee (first_name, last_name, role_id, manager_id) VALUES ($1, $2, $3, $4)',
+            [firstName, lastName, roleId, managerId]
+    );
 }
 // Update an employee's role
-async updateEmployeeRole(){
-
+async updateEmployeeRole(employeeId: number, newRoleId: number): Promise<void> {
+    await pool.query(
+        'UPDATE employee SET role_id = $1 WHERE id = $2',
+        [newRoleId, employeeId]
+    );
 }
 // Add a new role
-async addRole(){
-
+async addRole(roleData: { title: string; salary: number; departmentId: number }): Promise<void> {
+const { title, salary, departmentId } = roleData;
+    await pool.query(
+    'INSERT INTO role (title, salary, department_id) VALUES ($1, $2, $3)',
+    [title, salary, departmentId]
+);
 }
 // Add a new department
-async addDepartment(){
-    
+async addDepartment(departmentData: { name: string }): Promise<void>{
+    const { name } = departmentData;
+    await pool.query(
+        'INSERT INTO department (name) VALUES ($1)',
+        [name]
+    );
 }
 }
 

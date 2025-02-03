@@ -1,5 +1,5 @@
 import inquirer from 'inquirer';
-import db from './db.js';
+import db from "./db.js";
 
 // create ManageEmployee class to implement functions when a user selects what they would like to do with their employee
 
