@@ -19,6 +19,6 @@ INSERT INTO employee (first_name, last_name, role_id, manager_id) VALUES
 ('Jane', 'Smith', 2, 1),         -- Jane reports to John
 ('Emily', 'Johnson', 1, 1),      -- Emily also reports to John
 ('Michael', 'Brown', 3, 2),      -- Michael reports to Jane
-('Sarah', 'Davis', 4, 2);
+('Sarah', 'Davis', 4, 2);        --Sarah reports to Jane
         
         
