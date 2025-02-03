@@ -1,14 +1,14 @@
-const inquirer = require('inquirer');
-const db = require('./db');
-const ManageEmployee = require('./ManageEmployee');
+import {default as inquirer} from 'inquirer';
+import Db from './db.js';
+import ManageEmployee from './ManageEmployee.js';
 
 // creates an instance of ManageEmployee
 const manageEmployee = new ManageEmployee();
 // method for 1st prompt -"what would you like to do"
 // gives the user the actions they can preform with the Talent-Tracker
 const startApp = async () => {
-    inquirer
-    .prompt([
+    const { employeePrompts } = await inquirer.prompt([
+
         {
             type: 'list',
             name: 'employeePrompts',
@@ -24,36 +24,36 @@ const startApp = async () => {
                 'Quit'
             ],
         },
-    ])
+    ]);
 // switch statement is used to implement the correct action when a user selects what they would like to do with their employee
-switch (userChoice) {
+switch (employeePrompts) {
 // view all employees
 case 'View all employees':
-    viewAllEmployees();
+    manageEmployee.viewAllEmployees();
     break;
 // add employee
 case 'Add employee':
-    addEmployee();
+    manageEmployee.addEmployee();
     break;
 // update employee role
 case 'Update Employee Role':
-    updateEmployeeRole();
+    manageEmployee.updateEmployeeRole();
     break;
 // view all rolse
 case 'View all roles':
-    viewAllRoles();
+    manageEmployee.viewAllRoles();
     break;
 // add role
 case 'Add role':
-    addRole();
+    manageEmployee.addRole();
     break;
 // view all departments
 case 'View all departments':
-    viewAllDepartments();
+    manageEmployee.viewAllDepartments();
     break;
 // add department
 case 'Add department':
-    addDepartment();
+    manageEmployee.addDepartment();
     break;
 // quit
 case 'Quit':
@@ -62,5 +62,7 @@ case 'Quit':
 
 }
 // executes startApp function
-startApp();
+
 };
+
+startApp();

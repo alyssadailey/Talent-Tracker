@@ -1,11 +1,12 @@
 {
   "name": "talent-tracker",
   "version": "1.0.0",
-  "main": "index.js",
+  "main": "dist/app.js",
   "type": "module",
   "scripts": {
     "build": "npx tsc",
-    "start": "npm run build && node dist/app.js",
+    "develop": "npm run build && node dist/app.js",
+    "start": "node dist/app.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],

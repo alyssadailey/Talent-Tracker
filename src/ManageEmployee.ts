@@ -1,10 +1,10 @@
-const inquirer = require('inquirer');
-const db = require('./db');
-const consoleTable = require('console.table');
+import inquirer from 'inquirer';
+import db from './db.js';
 
 // create ManageEmployee class to implement functions when a user selects what they would like to do with their employee
 
-class ManageEmployee {
+export default class ManageEmployee {
+
 // view all employees
 // gets all employees in database and inserts data into table
 // COME BACK HERE- added getAllEmployees line 13- need to ensure that returns an array of the employees
@@ -136,5 +136,3 @@ console.log('Your new department has been added succesfully!')
 }
 // quit is handled in app.js
 }
-// allows ManageEmployee class to be imported into app.js
-module.exports = ManageEmployee;
