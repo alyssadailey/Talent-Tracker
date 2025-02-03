@@ -1,4 +1,5 @@
 import { default as inquirer } from 'inquirer';
+// import db from './db.js';
 import ManageEmployee from './ManageEmployee.js';
 // creates an instance of ManageEmployee
 const manageEmployee = new ManageEmployee();

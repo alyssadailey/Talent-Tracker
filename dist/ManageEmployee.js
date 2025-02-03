@@ -1,16 +1,16 @@
 import inquirer from 'inquirer';
-import db from './db.js';
+import Db from "./db.js";
+// creates new instance of Db
+const db = new Db();
 // create ManageEmployee class to implement functions when a user selects what they would like to do with their employee
 export default class ManageEmployee {
     // view all employees
     // gets all employees in database and inserts data into table
-    // COME BACK HERE- added getAllEmployees line 13- need to ensure that returns an array of the employees
     async viewAllEmployees() {
         const employees = await db.getAllEmployees();
         console.table(employees);
     }
     // add employee
-    // COME BACK HERE- added getAllRoles- need to make sure it returns the roles available
     async addEmployee() {
         // gets available roles to present to the user when adding a new employee.
         const roles = await db.getAllRoles();
@@ -76,7 +76,6 @@ export default class ManageEmployee {
         console.table(roles);
     }
     // add role
-    // COME BACK HERE-- use getAllDepartments- need to make sure it fetches all of the saved departments
     async addRole() {
         // gets all of the current departments stored in db
         const departments = await db.getAllDepartments();
@@ -91,7 +90,7 @@ export default class ManageEmployee {
                 type: 'input',
                 name: 'salary',
                 message: 'Enter the role salary:',
-                validate: (input) => !isNaN(input) || 'Please enter a valid number.',
+                validate: (input) => !isNaN(Number.parseInt(input)) || 'Please enter a valid number.',
             },
             {
                 type: 'input',

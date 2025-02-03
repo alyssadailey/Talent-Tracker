@@ -6,7 +6,7 @@
   "scripts": {
     "build": "npx tsc",
     "develop": "npm run build && node dist/app.js",
-    "start": "node dist/app.js",
+    "start": "npm run build && node dist/app.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],
@@ -16,5 +16,8 @@
   "dependencies": {
     "inquirer": "^12.3.3",
     "pg": "^8.13.1"
+  },
+  "devDependencies": {
+    "@types/pg": "^8.11.11"
   }
 }
