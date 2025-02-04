@@ -46,6 +46,7 @@ export default class ManageEmployee {
         console.log('Your employee has been added!');
     }
     // update employee role
+    // NOT WORKING COME BACK TO FIX
     async updateEmployeeRole() {
         // fetchs the employees to present to the user
         const employees = await db.getAllEmployees();
@@ -93,7 +94,8 @@ export default class ManageEmployee {
                 validate: (input) => !isNaN(Number.parseInt(input)) || 'Please enter a valid number.',
             },
             {
-                type: 'input',
+                // DOES NOT DISPLAY THE CURRENT DEPARTMENTS - need to be LIST type
+                type: 'list',
                 name: 'departmentId',
                 message: 'Select the department for this role:',
                 choices: departments.map(department => ({ name: department.name, value: department.id })),
