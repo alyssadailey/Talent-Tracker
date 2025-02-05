@@ -1,21 +1,24 @@
 import inquirer from 'inquirer';
 import Db from "./db.js";
-// creates new instance of Db
+// import { Manager } from "./interfaces.js";
+// Creates a new instance of the Db class, allowing access to its methods for database interactions.
 const db = new Db();
 // create ManageEmployee class to implement functions when a user selects what they would like to do with their employee
 export default class ManageEmployee {
-    // view all employees
-    // gets all employees in database and inserts data into table
+    // view all employees- WORKING
     async viewAllEmployees() {
+        // gets all employees in database and inserts data into table
         const employees = await db.getAllEmployees();
         console.table(employees);
     }
-    // add employee
+    // add employee- WORKING
     async addEmployee() {
         // gets available roles to present to the user when adding a new employee.
         const roles = await db.getAllRoles();
-        // gets available managers, so the user can choose which manager the new employee will repot to.
-        const managers = await db.getAllEmployees();
+        // todo: gets available managers, so the user can choose which manager the new employee will report to.
+        const managers = await db.getAllManagers();
+        // console.log("Available Roles:", roles);
+        // console.log("Available Managers:", managers);
         // prompts the user for the required info to add a new employee to the database
         const answers = await inquirer.prompt([
             {
@@ -38,16 +41,18 @@ export default class ManageEmployee {
                 type: 'list',
                 name: 'managerId',
                 message: 'Enter your employee\'s manager:',
-                choices: managers.map(manager => ({ name: `${manager.first_name} ${manager.last_name}`, value: manager.id })),
+                choices: [
+                    ...managers.map(manager => ({ name: `${manager.first_name} ${manager.last_name}`, value: manager.id })),
+                    { name: 'No Manager', value: null }
+                ],
             },
         ]);
         // waits for user to answer all required info , then displays message showing employee has been added
         await db.addEmployee(answers);
         console.log('Your employee has been added!');
     }
-    // update employee role
-    // NOT WORKING COME BACK TO FIX
-    async updateEmployeeRole() {
+    // update employee role--NOT WORKING- immediatly exiting function
+    async updateEmployeesRole() {
         // fetchs the employees to present to the user
         const employees = await db.getAllEmployees();
         // fetchs the roles to present to the user
@@ -67,16 +72,17 @@ export default class ManageEmployee {
                 choices: roles.map(role => ({ name: role.title, value: role.id })),
             },
         ]);
+        // updates the employee's role and logs success message to user
         await db.updateEmployeeRole(answers.employeeId, answers.newRoleId);
         console.log('Your employee has sucessfully been updated!');
     }
-    // view all roles
+    // view all roles- WORKING
     async viewAllRoles() {
         // displays all of the roles in a table
         const roles = await db.getAllRoles();
         console.table(roles);
     }
-    // add role
+    // add role- NOT WORKING
     async addRole() {
         // gets all of the current departments stored in db
         const departments = await db.getAllDepartments();
@@ -94,7 +100,6 @@ export default class ManageEmployee {
                 validate: (input) => !isNaN(Number.parseInt(input)) || 'Please enter a valid number.',
             },
             {
-                // DOES NOT DISPLAY THE CURRENT DEPARTMENTS - need to be LIST type
                 type: 'list',
                 name: 'departmentId',
                 message: 'Select the department for this role:',
@@ -104,12 +109,12 @@ export default class ManageEmployee {
         await db.addRole(answers);
         console.log('New role has been added sucessfully!');
     }
-    // view all departments
+    // view all departments- WORKING
     async viewAllDepartments() {
-        const departments = db.getAllDepartments();
+        const departments = await db.getAllDepartments();
         console.table(departments);
     }
-    // add department
+    // add department-NOT WORKING- error: duplicate key value violates unique constraint "department_pkey" 
     async addDepartment() {
         const answers = await inquirer.prompt([
             {
@@ -118,6 +123,16 @@ export default class ManageEmployee {
                 message: 'Please enter the name of the new department you would like to add:',
             },
         ]);
+        // displays the existing departments
+        const existingDepartments = await db.getAllDepartments();
+        console.log('Existing Departments:', existingDepartments);
+        const departmentExists = existingDepartments.some(department => department.name === answers.name);
+        if (departmentExists) {
+            console.log('This department already exists. Please enter a different name.');
+            return;
+        }
+        // logs that the department is currently being added, or has been added succesfully
+        console.log('Adding department:', answers);
         await db.addDepartment(answers);
         console.log('Your new department has been added succesfully!');
     }

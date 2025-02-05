@@ -1,7 +1,7 @@
 \c tracker;
 
 INSERT INTO department(id, name)
-VALUES  (1, 'HR'),
+VALUES  (1, 'IT'),
         (2, 'Shipping'),
         (3, 'Manufacturing'),
         (4, 'Sales'),

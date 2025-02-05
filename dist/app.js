@@ -14,7 +14,7 @@ const startApp = async () => {
             choices: [
                 'View all employees',
                 'Add employee',
-                'Update employee roles',
+                'Update employees role',
                 'View all roles',
                 'Add role',
                 'View all departments',
@@ -25,39 +25,41 @@ const startApp = async () => {
     ]);
     // switch statement is used to implement the correct action when a user selects what they would like to do with their employee
     switch (employeePrompts) {
-        // view all employees
+        // view all employees-WORKING
         case 'View all employees':
-            manageEmployee.viewAllEmployees();
+            await manageEmployee.viewAllEmployees();
             break;
-        // add employee
+        // add employee- WORKING
         case 'Add employee':
-            manageEmployee.addEmployee();
+            await manageEmployee.addEmployee();
             break;
-        // update employee role
-        case 'Update Employee Role':
-            manageEmployee.updateEmployeeRole();
+        // update employee role-NOT WORKING
+        case 'Update Employees Role':
+            await manageEmployee.updateEmployeesRole();
             break;
-        // view all rolse
+        // view all roles- WORKING
         case 'View all roles':
-            manageEmployee.viewAllRoles();
+            await manageEmployee.viewAllRoles();
             break;
-        // add role
+        //add role- WORKING
         case 'Add role':
-            manageEmployee.addRole();
+            await manageEmployee.addRole();
             break;
-        // view all departments
+        // view all departments- WORKING
         case 'View all departments':
-            manageEmployee.viewAllDepartments();
+            await manageEmployee.viewAllDepartments();
             break;
-        // add department
+        // add department= WORKING
         case 'Add department':
-            manageEmployee.addDepartment();
+            await manageEmployee.addDepartment();
             break;
-        // quit
+        // quit- WORKING
         case 'Quit':
             console.log('Thanks for using Talent-Tracker! Goodbye!');
             process.exit();
     }
-    // executes startApp function
+    // calls startApp again to allow another question to be asked
+    startApp();
 };
+// executes startApp function
 startApp();

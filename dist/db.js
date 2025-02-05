@@ -1,4 +1,6 @@
 import pg from 'pg';
+// import { Manager } from './interfaces'
+// import ManageEmployee from './ManageEmployee';
 const { Pool } = pg;
 // Creates a new pool instance for connecting to the database
 const pool = new Pool({
@@ -10,11 +12,21 @@ const pool = new Pool({
 });
 export default class Db {
     // Get all employees
+    // Selects all employees
     async getAllEmployees() {
         const results = await pool.query('SELECT * FROM employee');
         return results.rows;
     }
+    // get all managers
+    // selects all managers
+    async getAllManagers() {
+        // selects all managers (checks if manager id is NULL to see if the employee is a manager)
+        const results = await pool.query('SELECT id, first_name, last_name FROM employee WHERE manager_id IS NULL');
+        // returns all managers to be used in addEmployee function
+        return results.rows;
+    }
     // Get all roles
+    // selects all roles
     async getAllRoles() {
         const results = await pool.query('SELECT * FROM role');
         return results.rows;
