@@ -51,94 +51,136 @@ export default class ManageEmployee {
         await db.addEmployee(answers);
         console.log('Your employee has been added!');
     }
-    // update employee role--NOT WORKING- immediatly exiting function
-    async updateEmployeesRole() {
-        try {
-            // fetchs the employees to present to the user
-            const employees = await db.getAllEmployees();
-            // fetchs the roles to present to the user
-            const roles = await db.getAllRoles();
-            // asks user for the needed info to update an employee
-            const answers = await inquirer.prompt([
-                {
-                    type: 'list',
-                    name: 'employeeId',
-                    message: 'Please select the employee you would like to update',
-                    choices: employees.map(employee => ({ name: `${employee.first_name} ${employee.last_name}`, value: employee.id })),
-                },
-                {
-                    type: 'list',
-                    name: 'newRoleId',
-                    message: 'Select the new role for the employee',
-                    choices: roles.map(role => ({ name: role.title, value: role.id })),
-                },
-            ]);
-            // updates the employee's role and logs success message to user
-            await db.updateEmployeeRole(answers.employeeId, answers.newRoleId);
-            console.log('Your employee has sucessfully been updated!');
-        }
-        catch (error) {
-            console.error('Error updating employee role:', error);
-        }
-    }
-    // view all roles- WORKING
-    async viewAllRoles() {
-        // displays all of the roles in a table
-        const roles = await db.getAllRoles();
-        console.table(roles);
-    }
-    // add role- NOT WORKING
-    async addRole() {
-        // gets all of the current departments stored in db
-        const departments = await db.getAllDepartments();
-        //  asks user for the needed info to add a new role
-        const answers = await inquirer.prompt([
-            {
-                type: 'input',
-                name: 'title',
-                message: 'Enter the new roll title you would like to add:'
-            },
-            {
-                type: 'input',
-                name: 'salary',
-                message: 'Enter the role salary:',
-                validate: (input) => !isNaN(Number.parseInt(input)) || 'Please enter a valid number.',
-            },
+}
+// update employee role--NOT WORKING- immediatly exiting function
+function updateEmployeesRole() {
+    // try {
+    // fetchs the employees to present to the user
+    // const employees = await db.getAllEmployees();
+    db.getAllEmployees().then(({ rows }) => {
+        const employees = rows;
+        const employeeChoice = employees.map(({ id, first_name, last_name }) => ({
+            name: `${first_name} ${last_name}`,
+            value: id
+        }));
+        inquirer.prompt([
             {
                 type: 'list',
-                name: 'departmentId',
-                message: 'Select the department for this role:',
-                choices: departments.map(department => ({ name: department.name, value: department.id })),
+                name: 'employeeId',
+                message: 'Please select the employee you would like to update',
+                choices: employeeChoice
             },
-        ]);
-        await db.addRole(answers);
-        console.log('New role has been added sucessfully!');
+        ]).then((res) => {
+            const employeeId = res.employeeId;
+            db.getAllRoles().then(({ rows }) => {
+                const roles = rows;
+                const roleChoice = roles.map(({ id, title }) => ({
+                    name: title,
+                    value: id
+                }));
+                inquirer.prompt([
+                    {
+                        type: 'list',
+                        name: 'newRoleId',
+                        message: 'Select the new role for the employee',
+                        choices: roleChoice
+                    },
+                ]).then((res) => db.updateEmployeeRole(employeeId, res.newRoleId))
+                    .then(() => console.log('Employee role updated'));
+            });
+        });
+    });
+}
+// testing employees and roles
+// console.log('Employees:', employees);
+// console.log('Roles:', roles);
+// asks user for the needed info to update an employee
+// const answers = await inquirer.prompt([
+// {
+//     type: 'list',
+//     name: 'employeeId',
+//     message: 'Please select the employee you would like to update',
+//     choices: employees.map(employee =>({ name: `${employee.first_name} ${employee.last_name}`, value: employee.id})),
+// },
+// {
+//     type: 'list',
+//     name: 'newRoleId',
+//     message: 'Select the new role for the employee',
+//     choices: roles.map(role => ({ name: role.title, value: role.id })),
+// },
+// ]);
+// updates the employee's role and logs success message to user
+// await db.updateEmployeeRole(answers.employeeId, answers.newRoleId);
+// console.log('Your employee has sucessfully been updated!')
+// } catch (error) {
+//     console.error('Error updating employee role:', error);
+// }
+// }
+// view all roles- WORKING
+async;
+viewAllRoles();
+{
+    // displays all of the roles in a table
+    const roles = await db.getAllRoles();
+    console.table(roles);
+}
+// add role- NOT WORKING
+async;
+addRole();
+{
+    // gets all of the current departments stored in db
+    const departments = await db.getAllDepartments();
+    //  asks user for the needed info to add a new role
+    const answers = await inquirer.prompt([
+        {
+            type: 'input',
+            name: 'title',
+            message: 'Enter the new roll title you would like to add:'
+        },
+        {
+            type: 'input',
+            name: 'salary',
+            message: 'Enter the role salary:',
+            validate: (input) => !isNaN(Number.parseInt(input)) || 'Please enter a valid number.',
+        },
+        {
+            type: 'list',
+            name: 'departmentId',
+            message: 'Select the department for this role:',
+            choices: departments.map(department => ({ name: department.name, value: department.id })),
+        },
+    ]);
+    await db.addRole(answers);
+    console.log('New role has been added sucessfully!');
+}
+// view all departments- WORKING
+async;
+viewAllDepartments();
+{
+    const departments = await db.getAllDepartments();
+    console.table(departments);
+}
+// add department-NOT WORKING- error: duplicate key value violates unique constraint "department_pkey" 
+async;
+addDepartment();
+{
+    const answers = await inquirer.prompt([
+        {
+            type: 'input',
+            name: 'name',
+            message: 'Please enter the name of the new department you would like to add:',
+        },
+    ]);
+    // displays the existing departments
+    const existingDepartments = await db.getAllDepartments();
+    console.log('Existing Departments:', existingDepartments);
+    const departmentExists = existingDepartments.some(department => department.name === answers.name);
+    if (departmentExists) {
+        console.log('This department already exists. Please enter a different name.');
+        return;
     }
-    // view all departments- WORKING
-    async viewAllDepartments() {
-        const departments = await db.getAllDepartments();
-        console.table(departments);
-    }
-    // add department-NOT WORKING- error: duplicate key value violates unique constraint "department_pkey" 
-    async addDepartment() {
-        const answers = await inquirer.prompt([
-            {
-                type: 'input',
-                name: 'name',
-                message: 'Please enter the name of the new department you would like to add:',
-            },
-        ]);
-        // displays the existing departments
-        const existingDepartments = await db.getAllDepartments();
-        console.log('Existing Departments:', existingDepartments);
-        const departmentExists = existingDepartments.some(department => department.name === answers.name);
-        if (departmentExists) {
-            console.log('This department already exists. Please enter a different name.');
-            return;
-        }
-        // logs that the department is currently being added, or has been added succesfully
-        console.log('Adding department:', answers);
-        await db.addDepartment(answers);
-        console.log('Your new department has been added succesfully!');
-    }
+    // logs that the department is currently being added, or has been added succesfully
+    console.log('Adding department:', answers);
+    await db.addDepartment(answers);
+    console.log('Your new department has been added succesfully!');
 }
