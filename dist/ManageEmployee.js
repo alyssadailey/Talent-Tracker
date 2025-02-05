@@ -53,28 +53,33 @@ export default class ManageEmployee {
     }
     // update employee role--NOT WORKING- immediatly exiting function
     async updateEmployeesRole() {
-        // fetchs the employees to present to the user
-        const employees = await db.getAllEmployees();
-        // fetchs the roles to present to the user
-        const roles = await db.getAllRoles();
-        // asks user for the needed info to update an employee
-        const answers = await inquirer.prompt([
-            {
-                type: 'list',
-                name: 'employeeId',
-                message: 'Please select the employee you would like to update',
-                choices: employees.map(employee => ({ name: `${employee.first_name} ${employee.last_name}`, value: employee.id })),
-            },
-            {
-                type: 'list',
-                name: 'newRoleId',
-                message: 'Select the new role for the employee',
-                choices: roles.map(role => ({ name: role.title, value: role.id })),
-            },
-        ]);
-        // updates the employee's role and logs success message to user
-        await db.updateEmployeeRole(answers.employeeId, answers.newRoleId);
-        console.log('Your employee has sucessfully been updated!');
+        try {
+            // fetchs the employees to present to the user
+            const employees = await db.getAllEmployees();
+            // fetchs the roles to present to the user
+            const roles = await db.getAllRoles();
+            // asks user for the needed info to update an employee
+            const answers = await inquirer.prompt([
+                {
+                    type: 'list',
+                    name: 'employeeId',
+                    message: 'Please select the employee you would like to update',
+                    choices: employees.map(employee => ({ name: `${employee.first_name} ${employee.last_name}`, value: employee.id })),
+                },
+                {
+                    type: 'list',
+                    name: 'newRoleId',
+                    message: 'Select the new role for the employee',
+                    choices: roles.map(role => ({ name: role.title, value: role.id })),
+                },
+            ]);
+            // updates the employee's role and logs success message to user
+            await db.updateEmployeeRole(answers.employeeId, answers.newRoleId);
+            console.log('Your employee has sucessfully been updated!');
+        }
+        catch (error) {
+            console.error('Error updating employee role:', error);
+        }
     }
     // view all roles- WORKING
     async viewAllRoles() {

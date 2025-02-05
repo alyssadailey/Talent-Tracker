@@ -60,6 +60,8 @@ async addEmployee(){
 
 // update employee role--NOT WORKING- immediatly exiting function
 async updateEmployeesRole(){
+
+try {
 // fetchs the employees to present to the user
 const employees = await db.getAllEmployees();
 // fetchs the roles to present to the user
@@ -83,8 +85,10 @@ const answers = await inquirer.prompt([
 // updates the employee's role and logs success message to user
 await db.updateEmployeeRole(answers.employeeId, answers.newRoleId);
 console.log('Your employee has sucessfully been updated!')
+} catch (error) {
+    console.error('Error updating employee role:', error);
 }
-
+}
 // view all roles- WORKING
 async viewAllRoles(){
 // displays all of the roles in a table
