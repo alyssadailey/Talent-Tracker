@@ -59,45 +59,58 @@ async addEmployee(){
     }
 
 // update employee role--NOT WORKING- immediatly exiting function
-function updateEmployeesRole(){
+async updateEmployeesRole(){
 
-// try {
-// fetchs the employees to present to the user
-// const employees = await db.getAllEmployees();
-db.getAllEmployees().then(({ rows })=> {
-    const employees = rows;
-    const employeeChoice = employees.map(({ id, first_name, last_name })=>({
-        name: `${first_name} ${last_name}`,
-        value: id
+try {
+
+    const employees = await db.getAllEmployees();
+
+    if (!employees.length){
+        console.log("No employees found");
+    return;
+}
+
+const employeeChoice = employees.map((employee: any)=> ({
+    name: `${employee.first_name} ${employee.last_name}`,
+    value: employee.id
+}));
+
+const { employeeId } = await inquirer.prompt([
+    {
+        type: "list",
+        name: "employeeId",
+        message: "Please select the employee you would like to update:",
+        choices: employeeChoice
+    }
+]);
+
+const roles = await db.getAllRoles();
+
+if (!roles.length) {
+    console.log("No roles found.");
+    return;
+}
+
+const roleChoice = roles.map((role: any) =>
+    ({
+        name: role.title,
+        value: role.id
     }));
-    inquirer.prompt([
+
+ const { newRoleId } = await inquirer.prompt([
         {
-            type: 'list',
-            name: 'employeeId',
-            message: 'Please select the employee you would like to update',
-            choices: employeeChoice
-        },
-    ]).then((res)=>{
-        const employeeId = res.employeeId;
-        db.getAllRoles().then(({ rows })=> {
-            const roles = rows;
-            const roleChoice = roles.map(({ id, title })=>({
-                name: title,
-                value: id
-    }));
-    inquirer.prompt([
-        {
-            type: 'list',
-            name: 'newRoleId',
-            message: 'Select the new role for the employee',
+            type: "list",
+            name: "newRoleId",
+            message: "Select the new role for the employee:",
             choices: roleChoice
-    
-        },
-    ]).then((res)=> db.updateEmployeeRole(employeeId, res.newRoleId))
-    .then(()=> console.log('Employee role updated'))
-    });
-});
-})
+        }
+    ]);
+
+    await db.updateEmployeeRole(employeeId, newRoleId);
+        console.log("Employee role updated successfully!");
+    } catch (error) {
+        console.error("Error updating employee role:", error);
+    }
 }
 // testing employees and roles
 // console.log('Employees:', employees);

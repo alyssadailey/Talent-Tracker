@@ -36,7 +36,7 @@ case 'Add employee':
     await manageEmployee.addEmployee();
     break;
 // update employee role-NOT WORKING
-case 'Update Employees Role':
+case 'Update employees role':
     await manageEmployee.updateEmployeesRole();
     break;
 // view all roles- WORKING
