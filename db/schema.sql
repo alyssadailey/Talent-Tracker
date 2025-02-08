@@ -1,14 +1,15 @@
 DROP DATABASE IF EXISTS tracker;
 -- creates tracker DB
 CREATE DATABASE tracker;
-
+-- connects to the tracker database
 \c tracker;
 
+-- Creates the 'department' table to store department information
 CREATE TABLE department (
     id SERIAL PRIMARY KEY,
     name VARCHAR(30) UNIQUE NOT NULL
 );
-
+-- Creates the 'role' table to store department information
 CREATE TABLE role (
     id SERIAL PRIMARY KEY,
     title VARCHAR(30) UNIQUE NOT NULL,
@@ -18,7 +19,7 @@ CREATE TABLE role (
     ON DELETE CASCADE  
     ON UPDATE CASCADE
 );
-
+-- Creates the 'employee' table to store department information
 CREATE TABLE employee (
     id SERIAL PRIMARY KEY,
     first_name VARCHAR(30) NOT NULL,
