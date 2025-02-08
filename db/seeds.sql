@@ -1,11 +1,11 @@
 \c tracker;
 
-INSERT INTO department(id, name)
-VALUES  (1, 'IT'),
-        (2, 'Shipping'),
-        (3, 'Manufacturing'),
-        (4, 'Sales'),
-        (5, 'Legal');
+INSERT INTO department(name)
+VALUES  ('IT'),
+        ('Shipping'),
+        ('Manufacturing'),
+        ('Sales'),
+        ('Legal');
 
 INSERT INTO role (title, salary, department_id)
 VALUES  ('Software Engineer', 80000, 1),

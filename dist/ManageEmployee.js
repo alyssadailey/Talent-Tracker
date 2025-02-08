@@ -95,31 +95,6 @@ export default class ManageEmployee {
             console.error("Error updating employee role:", error);
         }
     }
-    // testing employees and roles
-    // console.log('Employees:', employees);
-    // console.log('Roles:', roles);
-    // asks user for the needed info to update an employee
-    // const answers = await inquirer.prompt([
-    // {
-    //     type: 'list',
-    //     name: 'employeeId',
-    //     message: 'Please select the employee you would like to update',
-    //     choices: employees.map(employee =>({ name: `${employee.first_name} ${employee.last_name}`, value: employee.id})),
-    // },
-    // {
-    //     type: 'list',
-    //     name: 'newRoleId',
-    //     message: 'Select the new role for the employee',
-    //     choices: roles.map(role => ({ name: role.title, value: role.id })),
-    // },
-    // ]);
-    // updates the employee's role and logs success message to user
-    // await db.updateEmployeeRole(answers.employeeId, answers.newRoleId);
-    // console.log('Your employee has sucessfully been updated!')
-    // } catch (error) {
-    //     console.error('Error updating employee role:', error);
-    // }
-    // }
     // view all roles- WORKING
     async viewAllRoles() {
         // displays all of the roles in a table
@@ -150,6 +125,13 @@ export default class ManageEmployee {
                 choices: departments.map(department => ({ name: department.name, value: department.id })),
             },
         ]);
+        const roles = await db.getAllRoles();
+        const roleExists = roles.some(role => role.title.toLowerCase() === answers.title.toLowerCase());
+        // handles when a user tries to add an already existing role
+        if (roleExists) {
+            console.log('This role already exists. Please enter a new role');
+            return;
+        }
         await db.addRole(answers);
         console.log('New role has been added sucessfully!');
     }
@@ -169,7 +151,8 @@ export default class ManageEmployee {
         ]);
         // displays the existing departments
         const existingDepartments = await db.getAllDepartments();
-        console.log('Existing Departments:', existingDepartments);
+        // console.log('Existing Departments:', existingDepartments);
+        // console.table(existingDepartments);
         const departmentExists = existingDepartments.some(department => department.name === answers.name);
         if (departmentExists) {
             console.log('This department already exists. Please enter a different name.');
