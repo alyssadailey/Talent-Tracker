@@ -2,7 +2,20 @@
 
 ## Description
 
-The motivation for this project, was to create a user friendly application that allows the users to preform various actions on the different employees, roles and departments in their company. The user can use the "View all ..." commands, to display all already-existing data in each category (employee, roles, and departments). The "Add ..." commands will allow the user to add a new employee, role or department. When selecting the add commands, the user will be prompted with questions needed to create a new item, depending on which category they are adding to. Lastly, there is an "Update employee roles" command that allows the user to update any existing employees roles, to allow the user to easily reflect promotions or department changes. Throughout the making of this application, I was able to better understand how the use of multiple classes can be used to define different properties and methods that can be reused throughout my application, promoting code reusability and maintainability. I also was able to get experience creating and using a database to organze and store my data.
+Talent-Tracker is a user-friendly employee management system that allows users to view, add, and update employees, roles, and departments within a company.
+
+Key Features:
+-View All Data: Users can retrieve and display all existing employees, roles, and departments stored in the system.
+
+-Add New Data: Users can add employees, roles, or departments by following interactive prompts that guide them through the process.
+
+-Update Employee Roles: Easily update an employee's role or department, reflecting promotions and internal changes.
+
+-Interactive CLI Experience: The application operates entirely within the command line interface (CLI) for quick and efficient data management.
+
+-Database Integration: Talent-Tracker uses a structured database to store and manage employee data, ensuring easy access and modification.
+
+This project enhanced my understanding of how multiple classes can be used to define reusable properties and methods, promoting clean, maintainable, and scalable code. Additionally, it provided hands-on experience with database creation and management to organize and store data effectively.
 
 ## Table of Contents
 - [Installation](#installation)
@@ -13,15 +26,27 @@ The motivation for this project, was to create a user friendly application that 
 
 ## Installation
 
-To install the Talent Tracker, you will need to run the following commands in your terminal:
-Step 1: npm install
-Step 2: npm run start
+To install and run Talent-Tracker, follow these steps:
+
+Step 1: Clone the repository to your local machine:
+
+git clone https://github.com/your-username/talent-tracker.git
+cd talent-tracker
+
+Step 2: Install Dependencies:
+
+npm install
+
+Step 3: Start the Application:
+
+npm run start
 
 ## Usage
 
-Talent-Tracker Demo Video: 
+Talent-Tracker Demo Video: https://www.loom.com/share/8792f69c18c0474aacae25c93e1671fd?sid=855ac26d-101b-442a-a540-d7d8b79e387d
 
--User must first run "npm install" and "npm run start" to allow the first prompt to be presented. 
+
+-After the user runs "npm run start" it allowa the first prompt to be presented. 
 
 -This first prompt will give the user options on what action they would like to perform with the Talent-Tracker.
 
@@ -39,7 +64,11 @@ Talent-Tracker Demo Video:
 I used the following valuble resources to create my code: the assistance of tutor John and Xpert Learning Assistance to answer any questions.
 
 ## Features
-N/A
+- Fully Interactive CLI Interface
+- Database Integration for Persistent Data Storage
+- Dynamic Employee Role Updating
+- Scalable & Maintainable Code Structure Using Classes
+- Seamless Navigation & User-Friendly Prompts
 
 ## Questions
 

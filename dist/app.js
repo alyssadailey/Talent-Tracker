@@ -1,11 +1,10 @@
 import { default as inquirer } from 'inquirer';
-// import db from './db.js';
 import ManageEmployee from './ManageEmployee.js';
 // creates an instance of ManageEmployee
 const manageEmployee = new ManageEmployee();
 // method for 1st prompt -"what would you like to do"
-// gives the user the actions they can preform with the Talent-Tracker
 const startApp = async () => {
+    // gives the user the actions they can preform with the Talent-Tracker
     const { employeePrompts } = await inquirer.prompt([
         {
             type: 'list',
@@ -33,7 +32,7 @@ const startApp = async () => {
         case 'Add employee':
             await manageEmployee.addEmployee();
             break;
-        // update employee role-NOT WORKING
+        // update employee role-WORKING
         case 'Update employees role':
             await manageEmployee.updateEmployeesRole();
             break;
